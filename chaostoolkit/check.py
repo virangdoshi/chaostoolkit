@@ -1,8 +1,8 @@
-import requests
 from chaoslib.types import Strategy
 from logzero import logger
 
 from chaostoolkit import __version__
+from security import safe_requests
 
 __all__ = ["check_newer_version", "check_hypothesis_strategy_spelling"]
 
@@ -20,8 +20,7 @@ def check_newer_version(command: str):
     """
     try:
         command = command.strip()
-        r = requests.get(
-            LATEST_RELEASE_URL,
+        r = safe_requests.get(LATEST_RELEASE_URL,
             timeout=(2, 30),
             params={"current": __version__, "command": command},
         )
